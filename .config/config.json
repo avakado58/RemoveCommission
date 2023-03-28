@@ -1,0 +1,6 @@
+{
+  "connectionString" : "data source=mssql;Initial Catalog=RC;User Id=Id; Password=password",
+  "amountCommission" : 75,
+  "baseCommission" : 50,
+  "additionalCommission" : 25
+}

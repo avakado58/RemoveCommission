@@ -1,10 +1,11 @@
-from repository import Repository
+from config.configreader import ConfigReader
+from config.settings import Settings
 
 
-def print_hi(name):
-    rep = Repository()
-    rep.get_settings()
+def start():
+    settings = Settings(ConfigReader.read())
+    print(settings.connectionString)
 
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    start()

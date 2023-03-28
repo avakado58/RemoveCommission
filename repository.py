@@ -1,6 +1,15 @@
-import os
 
 
 class Repository:
-    def get_settings(self):
-        print(os.path.abspath(__file__))
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
+
+    def get_version_id(self, ticket_numbers):
+        return
+
+    def get_vouchers(self, version_id):
+        return
+
+    def get_versions(self, version_id):
+        return
+

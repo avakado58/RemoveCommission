@@ -1,0 +1,3 @@
+{
+  "connectionString" : "data source=mssql;Initial Catalog=RC;User Id=Id; Password=pasword"
+}

@@ -1,5 +1,5 @@
 {
-  "connectionString" : "data source=mssql;Initial Catalog=RC;User Id=Id; Password=password",
+  "connectionString" : "dmssql://user:password@host/RC",
   "amountCommission" : 75,
   "baseCommission" : 50,
   "additionalCommission" : 25

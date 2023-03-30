@@ -1,8 +1,9 @@
 import json
+from config.settings import Settings
 
 
 class ConfigReader:
     @staticmethod
     def read():
         with open("./.config/config.json", encoding="utf-8") as file:
-            return json.loads(file.read())
+            return Settings(json.loads(file.read()))

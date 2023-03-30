@@ -1,6 +1,7 @@
 {
-  "connectionString" : "dmssql://user:password@host/RC",
+
   "amountCommission" : 75,
   "baseCommission" : 50,
-  "additionalCommission" : 25
+  "additionalCommission" : 25,
+  "companyId" : 15387
 }

@@ -1,7 +1,6 @@
 from typing import List, Tuple
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-
 from src.RemoveCommission.configs import Settings
 from src.RemoveCommission.models import DbTripItemVersion, DbPaymentInvoice, \
     DbOperationDetails, DbOperationDetailsPrices
@@ -19,23 +18,6 @@ class Repository:
 
         return versions
 
-    def update_version(self, versions: List[DbTripItemVersion]) -> int:
-        with Session(autoflush=False, bind=self.__engine) as db:
-            ids = list(map(lambda x: x.Id, versions))
-            db_versions = db.query(DbTripItemVersion).filter(DbTripItemVersion.Id.in_(ids)).all()
-
-            i = 0
-            while i < len(db_versions):
-                new_json = next(v for v in versions if v.Id == db_versions[i].Id).JsonData
-                setattr(db_versions[i], 'JsonData', new_json)
-                i += 1
-
-            db.commit()
-
-            print(f"{i} версий обнавленно")
-
-        return i
-
     def update_operation_details(self, version_ids: List[int]) -> Tuple[List[int], List[int]]:
         with Session(autoflush=False, bind=self.__engine) as db:
             operation_details = db.query(DbOperationDetails) \
@@ -48,12 +30,12 @@ class Repository:
                 amount = operation_details[i].Amount
                 detail_ids.append(operation_details[i].Id)
                 operation_ids.append(operation_details[i].OperationId)
-                '''
+
                 if amount < 0:
                     operation_details[i].Amount += self.__settings.amountCommission
                 elif amount > 0:
                     operation_details[i].Amount -= self.__settings.amountCommission
-                '''
+
                 i += 1
 
             operation_ids = list(set(operation_ids))
@@ -84,5 +66,37 @@ class Repository:
 
         return payments
 
+    def update_version(self, versions: List[DbTripItemVersion]) -> int:
+        with Session(autoflush=False, bind=self.__engine) as db:
+            ids = list(map(lambda x: x.Id, versions))
+            db_versions = db.query(DbTripItemVersion).filter(DbTripItemVersion.Id.in_(ids)).all()
+
+            i = 0
+            while i < len(db_versions):
+                new_json = next(v for v in versions if v.Id == db_versions[i].Id).JsonData
+                setattr(db_versions[i], 'JsonData', new_json)
+                i += 1
+
+            db.commit()
+
+            print(f"{i} версий обнавленно")
+
+        return i
+
     def update_payments(self, payments: List[DbPaymentInvoice]):
-        return
+        with Session(autoflush=False, bind=self.__engine) as db:
+            ids = list(map(lambda x: x.OperationId, payments))
+            db_payments = db.query(DbPaymentInvoice).filter(DbPaymentInvoice.OperationId.in_(ids)).all()
+
+            i = 0
+            while i < len(db_payments):
+                new = next(v for v in payments if v.OperationId == db_payments[i].OperationId)
+                setattr(db_payments[i], 'OperationInfo', new.OperationInfo)
+                setattr(db_payments[i], 'OperationInfo', new.Amount)
+                i += 1
+
+            db.commit()
+
+            print(f"{i} счетов обнавленно")
+
+        return i

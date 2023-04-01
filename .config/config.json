@@ -1,7 +1,6 @@
 {
-
   "amountCommission" : 75,
-  "baseCommission" : 50,
-  "additionalCommission" : 25,
-  "companyId" : 15387
+  "commission" : 50,
+  "fee" : 25,
+  "companyId" : 7133
 }

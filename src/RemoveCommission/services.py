@@ -14,8 +14,8 @@ class CommissionService:
         self.__repository = repository
         self.__settings = settings
 
-    def remove_ticket_commission(self, ticket_number: List[int], company_id: int):
-        ids = self.__pure_sql.get_version_id(ticket_number, company_id)
+    def remove_ticket_commission(self, ticket_number: List[int]):
+        ids = self.__pure_sql.get_version_id(ticket_number, self.__settings.companyId)
         payment_operation_ids = self.__pure_sql.get_payment_operation_id(ids)
         details_id, operation_ids = self.__repository.update_operation_details(ids)
         self.__repository.update_detail_price(details_id)
